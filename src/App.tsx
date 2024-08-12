@@ -11,17 +11,19 @@ import "./App.css";
 import { debounce } from "./utils/debounce";
 import PreferencesForm from "./components/preferences-form";
 import { type LatLngLiteral } from "leaflet";
-// import Loader from "./components/loader";
+import { getFormState, setFormState } from "./store";
 
 const initState = {
-  radius: 108,
+  radius: 21,
   latitude: 42,
   longitude: 42,
   minMagnitude: 0,
 };
 
 const App = () => {
-  const [preferences, setPreferences] = useState<UserPreferences>(initState);
+  const [preferences, setPreferences] = useState<UserPreferences>(
+    () => getFormState() || initState,
+  );
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
 
   const debouncedHandler = debounce(
@@ -36,6 +38,7 @@ const App = () => {
     (args: UserPreferences) => {
       setPreferences(args);
       debouncedHandler(args);
+      setFormState(args);
     },
     [debouncedHandler],
   );
@@ -43,8 +46,8 @@ const App = () => {
   const onMarkerDrag = useCallback(
     (location: LatLngLiteral) => {
       handleChanges({
-        radius: preferences?.radius ?? 108,
-        minMagnitude: preferences?.minMagnitude ?? 0,
+        radius: preferences?.radius,
+        minMagnitude: preferences?.minMagnitude,
         longitude: location.lng,
         latitude: location.lat,
       });

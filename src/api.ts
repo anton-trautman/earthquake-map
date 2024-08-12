@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Earthquake, UserPreferences } from "./types";
-
-const API_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query";
+import { API_URL } from "./constants";
 
 export async function getEarthquakes(
   prefs: UserPreferences,
@@ -13,7 +12,7 @@ export async function getEarthquakes(
       minmagnitude: prefs.minMagnitude,
       latitude: prefs.latitude,
       longitude: prefs.longitude,
-      maxradius: prefs.radius ?? 0,
+      maxradius: prefs.radius,
     },
   });
 

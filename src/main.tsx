@@ -1,7 +1,18 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
+// Telegram Mini App SDK
+import WebApp from "@twa-dev/sdk";
+
+// Initialize the Telegram Mini App SDK
+WebApp.ready();
+// // Expand the Telegram Mini App to full screen
+// WebApp.expand();
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <App />,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
 );

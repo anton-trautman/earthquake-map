@@ -1,11 +1,11 @@
 import React from "react";
-import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
-import { Earthquake } from "../../types";
-import ChangeView from "./map-change-view";
-import { getColorForMagnitude } from "../../utils/getEQColor";
-import DraggableMarker from "./draggable-marker";
-import "leaflet/dist/leaflet.css";
 import type { LatLngLiteral } from "leaflet";
+import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
+import ChangeView from "./map-change-view";
+import DraggableMarker from "./draggable-marker";
+import { getColorForMagnitude } from "../../utils/getEQColor";
+import { Earthquake } from "../../types";
+import "leaflet/dist/leaflet.css";
 
 interface EarthquakeMapProps {
   earthquakes: Earthquake[];

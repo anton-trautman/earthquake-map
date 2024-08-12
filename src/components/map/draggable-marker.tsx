@@ -1,5 +1,5 @@
 import { Marker, Popup } from "react-leaflet";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { LatLngLiteral } from "leaflet";
 
 function DraggableMarker({
@@ -25,6 +25,14 @@ function DraggableMarker({
     }),
     [onMarkerDrag],
   );
+
+  useEffect(() => {
+    if (location.lat !== position.lat || location.lng !== position.lng) {
+      setPosition({
+        ...location,
+      });
+    }
+  }, [location, position]);
 
   return (
     <Marker

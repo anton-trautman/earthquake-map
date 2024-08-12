@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { UserPreferences } from "../types";
 
-interface Props {
+type Props = {
   setPreferences: (prefs: UserPreferences) => void;
   preferences: UserPreferences;
-}
+};
 
 const PreferencesForm = ({ setPreferences, preferences }: Props) => {
   const [error, setError] = useState("");
@@ -12,23 +12,32 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
   const handleGetCurrentLocation = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        if (
+          position.coords.latitude !== preferences.latitude ||
+          position.coords.longitude !== preferences.longitude
+        ) {
           setPreferences({
             ...preferences,
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
-        });
-      } else {
-        setError("Geolocation is not supported by your browser.");
-      }
-    } catch (e) {
-      if (e instanceof Error) {
-        setError(e?.message);
-      }
+        }
+      });
+    } else {
+      setError("Geolocation is not supported by your browser.");
     }
+  };
+
+  const handleChange = (
+    value: string,
+    name: "minMagnitude" | "radius" | "latitude" | "longitude",
+  ) => {
+    setPreferences({
+      ...preferences,
+      [name]: parseFloat(value) ?? 0,
+    });
   };
 
   return (
@@ -46,12 +55,7 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
           max="12"
           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
           value={preferences?.minMagnitude}
-          onChange={(e) =>
-            setPreferences({
-              ...preferences,
-              minMagnitude: parseFloat(e.target.value) ?? 0,
-            })
-          }
+          onChange={(e) => handleChange(e.target.value, "minMagnitude")}
         />
       </div>
 
@@ -67,12 +71,7 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
           max="180"
           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
           value={preferences?.radius}
-          onChange={(e) =>
-            setPreferences({
-              ...preferences,
-              radius: parseFloat(e.target.value) ?? 0,
-            })
-          }
+          onChange={(e) => handleChange(e.target.value, "radius")}
         />
       </div>
 
@@ -84,24 +83,14 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
             className="border border-sky-500 rounded h-8 p-2.5"
             placeholder="Latitude"
             value={preferences?.latitude}
-            onChange={(e) =>
-              setPreferences({
-                ...preferences,
-                latitude: parseFloat(e.target.value) ?? 0,
-              })
-            }
+            onChange={(e) => handleChange(e.target.value, "latitude")}
           />
           <input
             type="number"
             className="border border-sky-500 rounded h-8 p-2.5"
             placeholder="Longitude"
             value={preferences?.longitude}
-            onChange={(e) =>
-              setPreferences({
-                ...preferences,
-                longitude: parseFloat(e.target.value) ?? 0,
-              })
-            }
+            onChange={(e) => handleChange(e.target.value, "longitude")}
           />
         </div>
 
