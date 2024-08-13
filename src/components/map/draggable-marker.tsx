@@ -1,21 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { normalizeLatLng } from "../../utils/normalize-data";
-import L from "leaflet";
 import { Marker, Popup } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
-
-import type { LatLngLiteral } from "leaflet";
-
-const DefaultIcon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-});
-
-L.Marker.prototype.options.icon = DefaultIcon;
+import { type LatLngLiteral, icon } from "leaflet";
 
 function DraggableMarker({
   location,
@@ -52,6 +41,7 @@ function DraggableMarker({
 
   return (
     <Marker
+      icon={IconMarker}
       draggable={true}
       eventHandlers={eventHandlers}
       position={position}
@@ -63,3 +53,16 @@ function DraggableMarker({
 }
 
 export default DraggableMarker;
+
+const sizeMarkerIcon = 50;
+
+const IconMarker = icon({
+  iconUrl: `data:image/svg+xml;utf8,${encodeURIComponent(`<?xml version="1.0" encoding="iso-8859-1"?>
+    <svg xmlns="http://www.w3.org/2000/svg" width="0.67em" height="1em" viewBox="0 0 1024 1536">
+      <path fill="orange" d="M768 512q0-106-75-181t-181-75t-181 75t-75 181t75 181t181 75t181-75t75-181m256 0q0 109-33 179l-364 774q-16 33-47.5 52t-67.5 19t-67.5-19t-46.5-52L33 691Q0 621 0 512q0-212 150-362T512 0t362 150t150 362" />
+    </svg>
+  `)}`,
+  iconSize: [sizeMarkerIcon, sizeMarkerIcon],
+  iconAnchor: [sizeMarkerIcon / 2, sizeMarkerIcon],
+  popupAnchor: [0, -sizeMarkerIcon],
+});
