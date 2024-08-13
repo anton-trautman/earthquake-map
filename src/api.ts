@@ -12,7 +12,7 @@ export async function getEarthquakes(
       minmagnitude: prefs.minMagnitude,
       latitude: prefs.latitude,
       longitude: prefs.longitude,
-      maxradius: prefs.radius,
+      maxradiuskm: prefs.radius,
     },
   });
 

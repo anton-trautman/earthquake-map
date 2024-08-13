@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@twa-dev/sdk": "^6.4.2",
+    "@twa-dev/types": "^7.8.0",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.3",
     "leaflet": "^1.9.4",

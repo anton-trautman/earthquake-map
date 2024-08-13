@@ -1,7 +1,7 @@
 import { useMap } from "react-leaflet";
-import type { LatLngExpression } from "leaflet";
+import type { LatLngLiteral } from "leaflet";
 
-function ChangeView({ center }: { center: LatLngExpression }) {
+function ChangeView({ center }: { center: LatLngLiteral }) {
   const map = useMap();
   map.setView(center, map.getZoom());
   return null;

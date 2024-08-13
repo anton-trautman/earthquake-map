@@ -6,6 +6,16 @@ type Props = {
   preferences: UserPreferences;
 };
 
+const normalizeLatLng = (number: number): number => {
+  if (number > 180) {
+    return number - 360;
+  }
+  if (number < -180) {
+    return number + 360;
+  }
+  return number;
+};
+
 const PreferencesForm = ({ setPreferences, preferences }: Props) => {
   const [error, setError] = useState("");
 
@@ -20,8 +30,8 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
         ) {
           setPreferences({
             ...preferences,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            latitude: normalizeLatLng(position.coords.latitude),
+            longitude: normalizeLatLng(position.coords.longitude),
           });
         }
       });
@@ -61,14 +71,15 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
 
       <div className="flex flex-col gap-2 ">
         <label htmlFor="radius" className="text-xs">
-          Search radius
+          Search radius:
+          <span className="ml-2">{preferences?.radius} KM</span>
         </label>
 
         <input
           id="radius"
           type="range"
           min="0"
-          max="180"
+          max="20001"
           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
           value={preferences?.radius}
           onChange={(e) => handleChange(e.target.value, "radius")}

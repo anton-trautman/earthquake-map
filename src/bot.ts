@@ -1,18 +1,18 @@
-import { Telegraf, Markup } from "telegraf";
-import { subscriptionManager } from "./subscription";
-import { getEarthquakes } from "./api";
+import { Telegraf } from "telegraf";
+// import { subscriptionManager } from "./subscription";
+// import { getEarthquakes } from "./api";
 
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 
 bot.command("start", (ctx) => {
   ctx.reply(
-    "Welcome to the Earthquake Bot! Use /subscribe to set up notifications."
+    "Welcome to the Earthquake Bot! Use /subscribe to set up notifications.",
   );
 });
 
 bot.command("subscribe", (ctx) => {
   ctx.reply(
-    "Please enter your subscription details in the format: area,magnitude\nFor example: 37.7749,-122.4194,5.0"
+    "Please enter your subscription details in the format: area,magnitude\nFor example: 37.7749,-122.4194,5.0",
   );
 });
 

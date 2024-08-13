@@ -1,10 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./index.css";
-
 // Telegram Mini App SDK
 import WebApp from "@twa-dev/sdk";
+import "./index.css";
 
 // Initialize the Telegram Mini App SDK
 WebApp.ready();

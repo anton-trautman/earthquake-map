@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import WebApp from "@twa-dev/sdk";
 import EarthquakeMap from "./components/map/map-view";
 import { getEarthquakes } from "./api";
 import { Earthquake, UserPreferences } from "./types";
@@ -14,7 +15,7 @@ import { type LatLngLiteral } from "leaflet";
 import { getFormState, setFormState } from "./store";
 
 const initState = {
-  radius: 21,
+  radius: 1008,
   latitude: 42,
   longitude: 42,
   minMagnitude: 0,
@@ -55,6 +56,25 @@ const App = () => {
     [handleChanges, preferences?.minMagnitude, preferences?.radius],
   );
 
+  useEffect(() => {
+    console.log({ scheme: WebApp.colorScheme });
+    function setThemeClass() {
+      document.documentElement.className = WebApp.colorScheme;
+    }
+    WebApp.onEvent("themeChanged", setThemeClass);
+    setThemeClass();
+
+    return () => {
+      WebApp.offEvent("themeChanged", setThemeClass);
+    };
+  }, []);
+
+  useEffect(() => {
+    debouncedHandler(preferences);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="App container h-screen ">
       <div className="mb-5">
@@ -71,6 +91,7 @@ const App = () => {
             lng: preferences?.longitude ?? 0,
           }}
           onMarkerDrag={onMarkerDrag}
+          radius={preferences?.radius}
         />
       </div>
     </div>

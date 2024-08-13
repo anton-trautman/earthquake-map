@@ -8,6 +8,9 @@ dependencies:
   '@twa-dev/sdk':
     specifier: ^6.4.2
     version: 6.9.2(react@18.3.1)
+  '@twa-dev/types':
+    specifier: ^7.8.0
+    version: 7.8.0
   autoprefixer:
     specifier: ^10.4.20
     version: 10.4.20(postcss@8.4.41)
@@ -783,6 +786,10 @@ packages:
 
   /@twa-dev/types@6.9.0:
     resolution: {integrity: sha512-hBkIuJgVtkLAPPhKsNfgyBpgS+15spzUScy5jgpfPJPqXPaaUVDTaWHbeEUU+lUgHmryeQjWyz+UjS7987Pyaw==}
+    dev: false
+
+  /@twa-dev/types@7.8.0:
+    resolution: {integrity: sha512-nZR1j3Q+YlqLw1WoQXvmi5kdaKSw3C9ChFeycdFKqSnDZb/rqT3qJ3h6wGTyZuxGJNf+JB6bY1pGRrzYfTx3WQ==}
     dev: false
 
   /@types/babel__core@7.20.5:

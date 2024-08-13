@@ -11,9 +11,20 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh", "prettier"],
   rules: {
+    "@typescript-eslint/no-require-imports": "warn",
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
+    ],
+    "sort-imports": [
+      "warn",
+      {
+        ignoreCase: false,
+        ignoreDeclarationSort: true,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ["all", "single", "multiple", "none"],
+        allowSeparatedGroups: false,
+      },
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": [
