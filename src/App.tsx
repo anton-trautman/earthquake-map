@@ -1,13 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import WebApp from "@twa-dev/sdk";
+// import WebApp from "@twa-dev/sdk";
 import EarthquakeMap from "./components/map/map-view";
 import { getEarthquakes } from "./api";
 import { Earthquake, UserPreferences } from "./types";
-// import {
-//   initTelegramWebApp,
-//   showMainButton,
-//   hideMainButton,
-// } from "./telegramWebApp";
 import "./App.css";
 import { debounce } from "./utils/debounce";
 import PreferencesForm from "./components/preferences-form";
@@ -27,19 +22,18 @@ const App = () => {
   );
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
 
-  const debouncedHandler = debounce(
-    async (formValues: UserPreferences) =>
-      await getEarthquakes(formValues).then((geoData) =>
-        setEarthquakes(geoData),
-      ),
-    300,
-  );
+  const callApi = async (formValues: UserPreferences) =>
+    await getEarthquakes(formValues).then((geoData) => {
+      setEarthquakes(geoData);
+      setFormState(formValues);
+    });
+
+  const debouncedHandler = useCallback(debounce(callApi, 600), []);
 
   const handleChanges = useCallback(
     (args: UserPreferences) => {
       setPreferences(args);
       debouncedHandler(args);
-      setFormState(args);
     },
     [debouncedHandler],
   );
@@ -56,18 +50,17 @@ const App = () => {
     [handleChanges, preferences?.minMagnitude, preferences?.radius],
   );
 
-  useEffect(() => {
-    console.log({ scheme: WebApp.colorScheme });
-    function setThemeClass() {
-      document.documentElement.className = WebApp.colorScheme;
-    }
-    WebApp.onEvent("themeChanged", setThemeClass);
-    setThemeClass();
-
-    return () => {
-      WebApp.offEvent("themeChanged", setThemeClass);
-    };
-  }, []);
+  //   useEffect(() => {
+  //     function setThemeClass() {
+  //       document.documentElement.className = WebApp.colorScheme;
+  //     }
+  //     WebApp.onEvent("themeChanged", setThemeClass);
+  //     setThemeClass();
+  //
+  //     return () => {
+  //       WebApp.offEvent("themeChanged", setThemeClass);
+  //     };
+  //   }, []);
 
   useEffect(() => {
     debouncedHandler(preferences);

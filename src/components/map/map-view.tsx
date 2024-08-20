@@ -47,11 +47,11 @@ const EarthquakeMap: React.FC<EarthquakeMapProps> = ({
         key={"radiuskm"}
         center={location}
         radius={radius * 1000}
-        fillColor={"green"}
         color={"green"}
+        className="fill-cyan-200"
         weight={1}
-        opacity={0.5}
-        fillOpacity={0.3}
+        opacity={0.2}
+        fillOpacity={0.2}
       ></Circle>
       {earthquakes.map((eq) => (
         <CircleMarker

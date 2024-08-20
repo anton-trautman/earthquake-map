@@ -19,3 +19,18 @@
   } */
 }
 
+@layer components {
+  .custom-range {
+    &::-webkit-slider-thumb {
+      background-clip: padding-box;
+      border: 0.4rem solid #0369a1;
+      transform: scale(2);
+    }
+    &::-moz-range-thumb {
+      background-clip: padding-box;
+      border: 0.4rem solid #0369a1;
+      box-sizing: border-box;
+      transform: scale(2);
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import axios from "axios";
 import { createInterface } from "readline";
 import fs from "fs";
-import { promisify } from "util";
+
+import process from "node:process";
 
 const rl = createInterface({
   input: process.stdin,
@@ -19,8 +20,8 @@ function exitError(error) {
 const banner = `
 ████████╗██╗    ██╗ █████╗     ████████╗███████╗███╗   ███╗██████╗ ██╗      █████╗ ████████╗███████╗
 ╚══██╔══╝██║    ██║██╔══██╗    ╚══██╔══╝██╔════╝████╗ ████║██╔══██╗██║     ██╔══██╗╚══██╔══╝██╔════╝
-   ██║   ██║ █╗ ██║███████║       ██║   █████╗  ██╔████╔██║██████╔╝██║     ███████║   ██║   █████╗  
-   ██║   ██║███╗██║██╔══██║       ██║   ██╔══╝  ██║╚██╔╝██║██╔═══╝ ██║     ██╔══██║   ██║   ██╔══╝  
+   ██║   ██║ █╗ ██║███████║       ██║   █████╗  ██╔████╔██║██████╔╝██║     ███████║   ██║   █████╗
+   ██║   ██║███╗██║██╔══██║       ██║   ██╔══╝  ██║╚██╔╝██║██╔═══╝ ██║     ██╔══██║   ██║   ██╔══╝
    ██║   ╚███╔███╔╝██║  ██║       ██║   ███████╗██║ ╚═╝ ██║██║     ███████╗██║  ██║   ██║   ███████╗
    ╚═╝    ╚══╝╚══╝ ╚═╝  ╚═╝       ╚═╝   ╚══════╝╚═╝     ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
 `;
@@ -37,7 +38,9 @@ let githubUsername, githubRepo, botUsername;
     const params = url.match(/github.com[/:]([^/]*)\/(.*)\.git/);
     githubUsername = params[1];
     githubRepo = params[2];
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 
   const accessToken = await question("Enter your bot access token: ");
   if (!accessToken?.length > 0) exitError("Token is required");
@@ -45,42 +48,41 @@ let githubUsername, githubRepo, botUsername;
   const githubUsernameQ = await question(
     `Enter your github username${
       githubUsername ? ` (${githubUsername})` : ``
-    }: `
+    }: `,
   );
   githubUsername = githubUsernameQ || githubUsername;
   if (!githubUsername?.length > 0) exitError("Github username is required");
 
   const githubRepoQ = await question(
-    `Enter your forked repo name${githubRepo ? ` (${githubRepo})` : ``}: `
+    `Enter your forked repo name${githubRepo ? ` (${githubRepo})` : ``}: `,
   );
   githubRepo = githubRepoQ || githubRepo;
   if (!githubRepo?.length > 0) exitError("Repo name is required");
 
-  const getBot = await axios.get(
-    `https://api.telegram.org/bot${accessToken}/getMe`
-  ).catch(exitError);
+  const getBot = await axios
+    .get(`https://api.telegram.org/bot${accessToken}/getMe`)
+    .catch(exitError);
 
   botUsername = getBot.data.result.username;
   const url = `https://${githubUsername}.github.io/${githubRepo}`;
 
   console.log(`\n\nSetting bot ${botUsername} webapp url to ${url}`);
 
-  const resp = await axios.post(
-    `https://api.telegram.org/bot${accessToken}/setChatMenuButton`,
-    {
+  const resp = await axios
+    .post(`https://api.telegram.org/bot${accessToken}/setChatMenuButton`, {
       menu_button: {
         type: "web_app",
-        text: "Launch Webapp",
+        text: "Open",
         web_app: {
           url: url,
         },
       },
-    }
-  ).catch(exitError);
+    })
+    .catch(exitError);
 
   if (resp.status === 200) {
     console.log(
-      `\nYou're all set! Visit https://t.me/${botUsername} to interact with your bot`
+      `\nYou're all set! Visit https://t.me/${botUsername} to interact with your bot`,
     );
     process.exit();
   } else {

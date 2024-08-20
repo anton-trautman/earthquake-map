@@ -33,6 +33,7 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
             latitude: normalizeLatLng(position.coords.latitude),
             longitude: normalizeLatLng(position.coords.longitude),
           });
+          
         }
       });
     } else {
@@ -52,6 +53,35 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
 
   return (
     <form>
+      <span className="text-xs ">Coordinates</span>
+      <div className="flex flex-row gap-10 items-center w-full ">
+        <div className="flex flex-col gap-2.5 w-2/3">
+          <input
+            type="number"
+            className="border border-sky-700/40 rounded h-8 p-2.5 dark:bg-slate-700/25"
+            placeholder="Latitude"
+            value={preferences?.latitude}
+            onChange={(e) => handleChange(e.target.value, "latitude")}
+          />
+          <input
+            type="number"
+            className="border border-sky-700/40 rounded h-8 p-2.5 dark:bg-slate-700/25"
+            placeholder="Longitude"
+            value={preferences?.longitude}
+            onChange={(e) => handleChange(e.target.value, "longitude")}
+          />
+        </div>
+
+        <div className=" w-1/3">
+          <button
+            className="radius-xs border-sky-700/40 border p-3 w-full"
+            onClick={handleGetCurrentLocation}
+          >
+            use my location
+          </button>
+        </div>
+      </div>
+
       <div className="flex flex-col gap-2 ">
         <label htmlFor="magnitude" className="text-xs">
           Minimum Magnitude:
@@ -63,7 +93,7 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
           type="range"
           min="0"
           max="12"
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+          className="custom-range w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700"
           value={preferences?.minMagnitude}
           onChange={(e) => handleChange(e.target.value, "minMagnitude")}
         />
@@ -78,41 +108,12 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
         <input
           id="radius"
           type="range"
-          min="0"
-          max="20001"
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+          min="108"
+          max="10008"
+          className="custom-range w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700"
           value={preferences?.radius}
           onChange={(e) => handleChange(e.target.value, "radius")}
         />
-      </div>
-
-      <span className="text-xs ">Coordinates</span>
-      <div className="flex flex-row gap-10 items-center w-full ">
-        <div className="flex flex-col gap-2.5 w-2/3">
-          <input
-            type="number"
-            className="border border-sky-500 rounded h-8 p-2.5"
-            placeholder="Latitude"
-            value={preferences?.latitude}
-            onChange={(e) => handleChange(e.target.value, "latitude")}
-          />
-          <input
-            type="number"
-            className="border border-sky-500 rounded h-8 p-2.5"
-            placeholder="Longitude"
-            value={preferences?.longitude}
-            onChange={(e) => handleChange(e.target.value, "longitude")}
-          />
-        </div>
-
-        <div className=" w-1/3">
-          <button
-            className="radius-xs border-sky-500 border p-3 w-full"
-            onClick={handleGetCurrentLocation}
-          >
-            use my location
-          </button>
-        </div>
       </div>
 
       {error && <p className="text-red-500">{error}</p>}
