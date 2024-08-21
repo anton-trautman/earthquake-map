@@ -83,11 +83,11 @@ const App = () => {
             lat: preferences?.latitude ?? 0,
             lng: preferences?.longitude ?? 0,
           }}
+          theme={WebApp.colorScheme}
           onMarkerDrag={onMarkerDrag}
           radius={preferences?.radius}
         />
       </div>
-      {WebApp.colorScheme}
     </div>
   );
 };

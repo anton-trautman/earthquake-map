@@ -19,6 +19,7 @@ interface EarthquakeMapProps {
   location: LatLngLiteral;
   onMarkerDrag: (location: LatLngLiteral) => void;
   radius: number;
+  theme: "light" | "dark";
 }
 
 const EarthquakeMap: React.FC<EarthquakeMapProps> = ({
@@ -26,6 +27,7 @@ const EarthquakeMap: React.FC<EarthquakeMapProps> = ({
   earthquakes,
   onMarkerDrag,
   radius,
+  theme = "dark",
 }) => {
   return (
     <MapContainer
@@ -37,8 +39,7 @@ const EarthquakeMap: React.FC<EarthquakeMapProps> = ({
     >
       <ChangeView center={location} />
       <TileLayer
-        url="https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
-        // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={`https://cartodb-basemaps-{s}.global.ssl.fastly.net/${theme}_all/{z}/{x}/{y}.png`}
       />
 
       <DraggableMarker location={location} onMarkerDrag={onMarkerDrag} />
