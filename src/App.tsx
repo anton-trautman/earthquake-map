@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-// import WebApp from "@twa-dev/sdk";
+import WebApp from "@twa-dev/sdk";
 import EarthquakeMap from "./components/map/map-view";
 import { getEarthquakes } from "./api";
 import { Earthquake, UserPreferences } from "./types";
@@ -14,6 +14,7 @@ const initState = {
   latitude: 42,
   longitude: 42,
   minMagnitude: 0,
+  days: 1,
 };
 
 const App = () => {
@@ -41,13 +42,12 @@ const App = () => {
   const onMarkerDrag = useCallback(
     (location: LatLngLiteral) => {
       handleChanges({
-        radius: preferences?.radius,
-        minMagnitude: preferences?.minMagnitude,
+        ...preferences,
         longitude: location.lng,
         latitude: location.lat,
       });
     },
-    [handleChanges, preferences?.minMagnitude, preferences?.radius],
+    [handleChanges, preferences],
   );
 
   //   useEffect(() => {
@@ -87,6 +87,7 @@ const App = () => {
           radius={preferences?.radius}
         />
       </div>
+      {WebApp.colorScheme}
     </div>
   );
 };

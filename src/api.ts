@@ -8,7 +8,9 @@ export async function getEarthquakes(
   const response = await axios.get(API_URL, {
     params: {
       format: "geojson",
-      starttime: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      starttime: new Date(
+        Date.now() - (prefs.days || 1) * 24 * 60 * 60 * 1000,
+      ).toISOString(),
       minmagnitude: prefs.minMagnitude,
       latitude: prefs.latitude,
       longitude: prefs.longitude,

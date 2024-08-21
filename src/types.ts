@@ -17,6 +17,7 @@ export interface UserPreferences {
   latitude: number;
   longitude: number;
   minMagnitude: number;
+  days: number;
 }
 
 export enum ViewMode {

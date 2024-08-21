@@ -1,19 +1,10 @@
 import { useState } from "react";
 import { UserPreferences } from "../types";
+import { normalizeLatLng } from "../utils/normalize-data";
 
 type Props = {
   setPreferences: (prefs: UserPreferences) => void;
   preferences: UserPreferences;
-};
-
-const normalizeLatLng = (number: number): number => {
-  if (number > 180) {
-    return number - 360;
-  }
-  if (number < -180) {
-    return number + 360;
-  }
-  return number;
 };
 
 const PreferencesForm = ({ setPreferences, preferences }: Props) => {
@@ -33,7 +24,6 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
             latitude: normalizeLatLng(position.coords.latitude),
             longitude: normalizeLatLng(position.coords.longitude),
           });
-          
         }
       });
     } else {
@@ -43,7 +33,7 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
 
   const handleChange = (
     value: string,
-    name: "minMagnitude" | "radius" | "latitude" | "longitude",
+    name: "minMagnitude" | "radius" | "latitude" | "longitude" | "days",
   ) => {
     setPreferences({
       ...preferences,
@@ -83,6 +73,22 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
       </div>
 
       <div className="flex flex-col gap-2 ">
+        <label htmlFor="days" className="text-xs">
+          Last&nbsp;{preferences?.days}&nbsp;days
+        </label>
+
+        <input
+          id="days"
+          type="range"
+          min="1"
+          max="10"
+          className="custom-range w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700"
+          value={preferences?.days}
+          onChange={(e) => handleChange(e.target.value, "days")}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2 ">
         <label htmlFor="magnitude" className="text-xs">
           Minimum Magnitude:
           <span className="ml-2">{preferences?.minMagnitude}</span>
@@ -91,7 +97,7 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
         <input
           id="magnitude"
           type="range"
-          min="0"
+          min="1"
           max="12"
           className="custom-range w-full h-4 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700"
           value={preferences?.minMagnitude}

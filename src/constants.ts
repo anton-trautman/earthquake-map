@@ -5,4 +5,5 @@ export const formInitState = {
   latitude: 42,
   longitude: 42,
   minMagnitude: 0,
+  days: 1,
 };
