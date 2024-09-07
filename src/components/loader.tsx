@@ -2,16 +2,16 @@ function Loader() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="45"
-      height="45"
-      viewBox="0 0 45 45"
-      stroke="currentColor"
+      width="24"
+      height="24"
+      viewBox="7 7 32 32"
+      stroke="#000"
     >
       <g
         fill="none"
         fillRule="evenodd"
         transform="translate(1 1)"
-        strokeWidth="2"
+        strokeWidth="4"
       >
         <circle cx="22" cy="22" r="6" strokeOpacity="0">
           <animate

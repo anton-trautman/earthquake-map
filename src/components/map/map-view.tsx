@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import ChangeView from "./map-change-view";
 import DraggableMarker from "./draggable-marker";
 import { getColorForMagnitude } from "../../utils/get-EQ-color";
-import { Earthquake } from "../../types";
 
 import {
   Circle,
@@ -13,47 +12,57 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import type { LatLngLiteral } from "leaflet";
+import LocationButton from "./locate-me-button";
+import { useUserPreferences } from "../../providers/user-preferences/hooks";
 
 interface EarthquakeMapProps {
-  earthquakes: Earthquake[];
-  location: LatLngLiteral;
-  onMarkerDrag: (location: LatLngLiteral) => void;
-  radius: number;
   theme: "light" | "dark";
 }
 
-const EarthquakeMap: React.FC<EarthquakeMapProps> = ({
-  location,
-  earthquakes,
-  onMarkerDrag,
-  radius,
-  theme = "dark",
-}) => {
+const EarthquakeMap: React.FC<EarthquakeMapProps> = ({ theme = "dark" }) => {
+  const url = `https://cartodb-basemaps-{s}.global.ssl.fastly.net/${theme}_all/{z}/{x}/{y}.png`;
+
+  const { setPreferences, preferences, earthquakes } = useUserPreferences();
+
+  const onMarkerDrag = useCallback(
+    (location: LatLngLiteral) => {
+      setPreferences({
+        longitude: location.lng,
+        latitude: location.lat,
+      });
+    },
+    [setPreferences],
+  );
+
+  const location: LatLngLiteral = {
+    lat: preferences.latitude,
+    lng: preferences.longitude,
+  };
   return (
     <MapContainer
+      keyboard={false}
       center={location}
       zoom={2}
       scrollWheelZoom={false}
-      style={{ minHeight: "600px", width: "100%" }}
+      style={{ minHeight: "460px", width: "100%" }}
       className="rounded"
     >
       <ChangeView center={location} />
-      <TileLayer
-        url={`https://cartodb-basemaps-{s}.global.ssl.fastly.net/${theme}_all/{z}/{x}/{y}.png`}
-      />
+      <TileLayer url={url} />
 
       <DraggableMarker location={location} onMarkerDrag={onMarkerDrag} />
 
       <Circle
         key={"radiuskm"}
         center={location}
-        radius={radius * 1000}
+        radius={preferences.radius * 1000}
         color={"green"}
         className="fill-cyan-200"
         weight={1}
         opacity={0.2}
         fillOpacity={0.2}
-      ></Circle>
+      />
+      <LocationButton />
       {earthquakes.map((eq) => (
         <CircleMarker
           key={eq.time + eq.place + eq.magnitude}
@@ -64,6 +73,7 @@ const EarthquakeMap: React.FC<EarthquakeMapProps> = ({
           weight={1}
           opacity={0.8}
           fillOpacity={0.6}
+          className="animate-fadein"
         >
           <Popup>
             Magnitude {eq.magnitude} <br /> {eq.place} <br />

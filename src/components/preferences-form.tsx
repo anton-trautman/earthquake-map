@@ -1,77 +1,19 @@
-import { useState } from "react";
-import { UserPreferences } from "../types";
-import { normalizeLatLng } from "../utils/normalize-data";
+import { useUserPreferences } from "../providers/user-preferences/hooks";
 
-type Props = {
-  setPreferences: (prefs: UserPreferences) => void;
-  preferences: UserPreferences;
-};
-
-const PreferencesForm = ({ setPreferences, preferences }: Props) => {
-  const [error, setError] = useState("");
-
-  const handleGetCurrentLocation = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        if (
-          position.coords.latitude !== preferences.latitude ||
-          position.coords.longitude !== preferences.longitude
-        ) {
-          setPreferences({
-            ...preferences,
-            latitude: normalizeLatLng(position.coords.latitude),
-            longitude: normalizeLatLng(position.coords.longitude),
-          });
-        }
-      });
-    } else {
-      setError("Geolocation is not supported by your browser.");
-    }
-  };
+const PreferencesForm = () => {
+  const { setPreferences, preferences } = useUserPreferences();
 
   const handleChange = (
     value: string,
     name: "minMagnitude" | "radius" | "latitude" | "longitude" | "days",
   ) => {
     setPreferences({
-      ...preferences,
       [name]: parseFloat(value) ?? 0,
     });
   };
 
   return (
-    <form>
-      <span className="text-xs ">Coordinates</span>
-      <div className="flex flex-row gap-10 items-center w-full ">
-        <div className="flex flex-col gap-2.5 w-2/3">
-          <input
-            type="number"
-            className="border border-sky-700/40 rounded h-8 p-2.5 dark:bg-slate-700/25"
-            placeholder="Latitude"
-            value={preferences?.latitude}
-            onChange={(e) => handleChange(e.target.value, "latitude")}
-          />
-          <input
-            type="number"
-            className="border border-sky-700/40 rounded h-8 p-2.5 dark:bg-slate-700/25"
-            placeholder="Longitude"
-            value={preferences?.longitude}
-            onChange={(e) => handleChange(e.target.value, "longitude")}
-          />
-        </div>
-
-        <div className=" w-1/3">
-          <button
-            className="radius-xs border-sky-700/40 border p-3 w-full"
-            onClick={handleGetCurrentLocation}
-          >
-            use my location
-          </button>
-        </div>
-      </div>
-
+    <form className="w-full">
       <div className="flex flex-col gap-2 ">
         <label htmlFor="days" className="text-xs">
           Last&nbsp;{preferences?.days}&nbsp;days
@@ -121,8 +63,6 @@ const PreferencesForm = ({ setPreferences, preferences }: Props) => {
           onChange={(e) => handleChange(e.target.value, "radius")}
         />
       </div>
-
-      {error && <p className="text-red-500">{error}</p>}
     </form>
   );
 };
