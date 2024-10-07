@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --eerie-black: #262626;
+    --yinmn-blue: #425979;
+    --carolina-blue: #82b0d8;
+    --tiffany-blue: #a1dcdc;
+    --dark-spring-green: #157145;
+    --jade: #57a773;
+    --white: #fff;
+    --grey: #ececec;
+
+    --color-bg-primary: var(--grey);
+    --color-bg-secondary: var(--white);
+    --color-bg-inverted: var(--eerie-black);
+
+    --color-text-primary: var(--eerie-black);
+    --color-text-secondary: var(--yinmn-blue);
+    --color-text-inverted: var(--white);
+
+    --color-accent-primary: var(--carolina-blue);
+    --color-accent-secondary: var(--tiffany-blue);
+    --color-accent-inverted: var(--dark-spring-green);
+
+
+    /* 10px */
+    --radius-md: 0.625rem;
+    /* 20px */
+    --radius-lg: 1.25rem;
+    /* 40px */
+    --radius-xl: 2.5rem;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --color-bg-primary: var(--eerie-black);
+    --color-bg-secondary: var(--yinmn-blue);
+    --color-bg-inverted: var(--grey);
+
+    --color-text-primary: var(--white);
+    --color-text-secondary: var(--carolina-blue);
+    --color-text-inverted: var(--eerie-black);
+  }
+
+  body {
+    @apply bg-bgPrimary leading-normal antialiased;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+@layer components {
+
+
+  form {
+    @apply flex flex-col gap-2.5 mb-5;
+  }
+
+  input {
+    @apply p-2.5 text-base;
+  }
+
+  ul {
+    @apply p-0 list-none;
+  }
+
+  li {
+    @apply mb-2.5 p-2.5 rounded-sm;
+  }
+
+  h1 {
+    @apply text-[3.2em] leading-[1.1];
+  }
+
+  button {
+    @apply border text-base font-medium bg-[#1a1a1a] cursor-pointer transition-[border-color] duration-300 px-5 py-2.5 rounded-md border-solid border-transparent hover:border-[#646cff];
+  }
+
+  /* button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  } */
+
+  a {
+    @apply font-medium text-[#646cff] hover:text-[#535bf2];
+    text-decoration: inherit;
+  }
+
+  /* @media (prefers-color-scheme: light) {
+    a {
+      @apply hover:text-[#747bff];
+    }
+
+    button {
+      @apply bg-[#f9f9f9];
+    }
+  } */
+
+  .custom-range {
+    @apply bg-slate-600 w-full h-4 rounded-xl appearance-none cursor-pointer;
+  }
+
+  .custom-range::-webkit-slider-thumb {
+    @apply bg-clip-padding border-sky-700 border-[0.4rem] border-solid scale-[2];
+  }
+
+  .custom-range::-moz-range-thumb {
+    @apply bg-clip-padding border-sky-700 box-border border-[0.4rem] border-solid scale-[2];
+  }
+}

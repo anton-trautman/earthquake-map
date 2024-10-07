@@ -14,12 +14,11 @@ import "leaflet/dist/leaflet.css";
 import type { LatLngLiteral } from "leaflet";
 import LocationButton from "./locate-me-button";
 import { useUserPreferences } from "../../providers/user-preferences/hooks";
+import { useTheme } from "../../providers/theme/use-theme";
 
-interface EarthquakeMapProps {
-  theme: "light" | "dark";
-}
+const EarthquakeMap = () => {
+  const { theme } = useTheme();
 
-const EarthquakeMap: React.FC<EarthquakeMapProps> = ({ theme = "dark" }) => {
   const url = `https://cartodb-basemaps-{s}.global.ssl.fastly.net/${theme}_all/{z}/{x}/{y}.png`;
 
   const { setPreferences, preferences, earthquakes } = useUserPreferences();
@@ -44,8 +43,8 @@ const EarthquakeMap: React.FC<EarthquakeMapProps> = ({ theme = "dark" }) => {
       center={location}
       zoom={2}
       scrollWheelZoom={false}
+      className={"h-[calc(100vh_-_250px)]"}
       style={{ minHeight: "460px", width: "100%" }}
-      className="rounded"
     >
       <ChangeView center={location} />
       <TileLayer url={url} />

@@ -29,3 +29,12 @@ export type MapLocation = {
   lat: number;
   lng: number;
 };
+
+export type FormInputName =
+  | "minMagnitude"
+  | "radius"
+  | "latitude"
+  | "longitude"
+  | "days";
+
+export type Theme = "light" | "dark";

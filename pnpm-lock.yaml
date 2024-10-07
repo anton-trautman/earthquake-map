@@ -11,6 +11,9 @@ dependencies:
   '@twa-dev/types':
     specifier: ^7.8.0
     version: 7.8.0
+  '@types/pluralize':
+    specifier: ^0.0.33
+    version: 0.0.33
   autoprefixer:
     specifier: ^10.4.20
     version: 10.4.20(postcss@8.4.41)
@@ -20,6 +23,9 @@ dependencies:
   leaflet:
     specifier: ^1.9.4
     version: 1.9.4
+  pluralize:
+    specifier: ^8.0.0
+    version: 8.0.0
   react:
     specifier: ^18.2.0
     version: 18.3.1
@@ -47,10 +53,10 @@ devDependencies:
     specifier: ^18.11.18
     version: 18.19.44
   '@types/react':
-    specifier: ^18.0.27
-    version: 18.3.3
+    specifier: ^18.3.8
+    version: 18.3.8
   '@types/react-dom':
-    specifier: ^18.0.10
+    specifier: ^18.3.0
     version: 18.3.0
   '@typescript-eslint/eslint-plugin':
     specifier: ^8.0.1
@@ -846,6 +852,10 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
+  /@types/pluralize@0.0.33:
+    resolution: {integrity: sha512-JOqsl+ZoCpP4e8TDke9W79FDcSgPAR0l6pixx2JHkhnRjvShyYiAYw2LVsnA7K08Y6DeOnaU6ujmENO4os/cYg==}
+    dev: false
+
   /@types/prop-types@15.7.12:
     resolution: {integrity: sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==}
     dev: true
@@ -853,11 +863,11 @@ packages:
   /@types/react-dom@18.3.0:
     resolution: {integrity: sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==}
     dependencies:
-      '@types/react': 18.3.3
+      '@types/react': 18.3.8
     dev: true
 
-  /@types/react@18.3.3:
-    resolution: {integrity: sha512-hti/R0pS0q1/xx+TsI73XIqk26eBsISZ2R0wUijXIngRK9R/e7Xw/cXVxQK7R5JjW+SV4zGcn5hXjudkN/pLIw==}
+  /@types/react@18.3.8:
+    resolution: {integrity: sha512-syBUrW3/XpnW4WJ41Pft+I+aPoDVbrBVQGEnbD7NijDGlVC+8gV/XKRY+7vMDlfPpbwYt0l1vd/Sj8bJGMbs9Q==}
     dependencies:
       '@types/prop-types': 15.7.12
       csstype: 3.1.3
@@ -3361,6 +3371,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       find-up: 5.0.0
+    dev: false
+
+  /pluralize@8.0.0:
+    resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
+    engines: {node: '>=4'}
     dev: false
 
   /possible-typed-array-names@1.0.0:

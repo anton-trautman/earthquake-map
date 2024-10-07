@@ -1,32 +1,30 @@
-import { useMemo } from "react";
-import WebApp from "@twa-dev/sdk";
 import { Toaster } from "react-hot-toast";
-import EarthquakeMap from "./components/map/map-view";
+
+import { UserPreferencesContextProvider } from "./providers/user-preferences/context";
+import { ThemeContextProvider } from "./providers/theme/context";
+import ThemeSwitcher from "./components/theme-switcher";
+import { lazy, Suspense } from "react";
 
 import PreferencesForm from "./components/preferences-form";
-import { UserPreferencesContextProvider } from "./providers/user-preferences/context";
-import "./App.css";
+const EarthquakeMap = lazy(() => import("./components/map/map-view"));
 
 const App = () => {
-  const theme = useMemo(() => {
-    return WebApp.colorScheme ||
-      (window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ? "dark"
-      : "light";
-  }, []);
-
   return (
-    <div className="App container h-screen w-screen">
-      <Toaster />
-      <UserPreferencesContextProvider>
-        <div className="mb-5">
-          <PreferencesForm />
-        </div>
-        <div className="w-full h-full ">
-          <EarthquakeMap theme={theme} />
-        </div>
-      </UserPreferencesContextProvider>
+    <div className="container h-screen w-full p-5">
+      <ThemeContextProvider>
+        <Toaster />
+        <ThemeSwitcher />
+        <UserPreferencesContextProvider>
+          <div className="mb-5">
+            <PreferencesForm />
+          </div>
+          <div className="w-full ">
+            <Suspense>
+              <EarthquakeMap />
+            </Suspense>
+          </div>
+        </UserPreferencesContextProvider>
+      </ThemeContextProvider>
     </div>
   );
 };
